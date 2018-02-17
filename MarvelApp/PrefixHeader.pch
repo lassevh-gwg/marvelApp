@@ -12,7 +12,7 @@
 // Include any system framework and library headers here that should be included in all compilation units.
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
 
-#define MARVEL_API_BASEPOINT @"http://gateway.marvel.com/"
+#define MARVEL_API_BASEPOINT @"https://gateway.marvel.com/"
 #define MARVEL_PUBLIC_KEY @"fbfc8ca3b15b4ce679c18bb9922df56d"
 #define MARVEL_PRIVATE_KEY @"e52f84ec2cf23651712bdf347872a7d0e47ab14a"
 #define MARVEL_API_PATH_PATTERN @"v1/public/"

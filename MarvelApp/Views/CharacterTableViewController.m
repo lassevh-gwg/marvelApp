@@ -23,6 +23,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self loadMoreCharacters];
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
@@ -79,14 +81,23 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"reuableCharacterCell" forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"reuableCharacterCell"];
     
-    // Configure the cell...
+    Character *curCharacter = [Character charWithManagedObjectContext:[[MarvelObjectManager manager] managedObjectContext]
+                                                           andInnerID:indexPath.row];
+    
+    UIImageView *imageView = [cell viewWithTag:100];
+//    [imageView setImageWithURL:[NSURL URLWithString: curCharacter.thumbnailURLString]];
+
+    UILabel *nameLabel = [cell viewWithTag:200];
+    nameLabel.text = curCharacter.name;
     
     return cell;
 }
 
-
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 80;
+}
 
 
 #pragma mark - Table view delegate
