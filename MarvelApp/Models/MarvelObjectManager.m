@@ -11,15 +11,15 @@
 
 @implementation MarvelObjectManager
 {
-    RKObjectManager *objectManager;
-    RKManagedObjectStore *managedObjectStore;
+    RKObjectManager *_objectManager;
+    RKManagedObjectStore *_managedObjectStore;
 }
 
 #pragma mark - Public Methods
 
 - (NSManagedObjectContext *)managedObjectContext
 {
-    return managedObjectStore.mainQueueManagedObjectContext;
+    return _managedObjectStore.mainQueueManagedObjectContext;
 }
 
 - (void)getMarvelObjectsAtPath:(NSString *)path
@@ -40,7 +40,7 @@
     [queryParams addEntriesFromDictionary:params];
     
     // Starts RKObjectRequestOperation with certain parameters.
-    [objectManager getObjectsAtPath:[NSString stringWithFormat:@"%@%@", MARVEL_API_PATH_PATTERN, path]
+    [_objectManager getObjectsAtPath:[NSString stringWithFormat:@"%@%@", MARVEL_API_PATH_PATTERN, path]
                          parameters:queryParams
                             success:success
                             failure:failure];
@@ -51,12 +51,12 @@ andAttributeMappingsFromDictionary:(NSDictionary *)attributeMappings
        andIdentificationAttributes:(NSArray *)ids
                     andPathPattern:(NSString *)pathPattern
 {
-    if (!managedObjectStore)
+    if (!_managedObjectStore)
     return;
     
     // Create mapping for the particular entity.
     RKEntityMapping *objectMapping = [RKEntityMapping mappingForEntityForName:entityName
-                                                         inManagedObjectStore:managedObjectStore];
+                                                         inManagedObjectStore:_managedObjectStore];
     [objectMapping addAttributeMappingsFromDictionary:attributeMappings];
     objectMapping.identificationAttributes = ids;
     
@@ -69,7 +69,7 @@ andAttributeMappingsFromDictionary:(NSDictionary *)attributeMappings
                                                 keyPath:@"data.results"
                                             statusCodes:[NSIndexSet indexSetWithIndex:200]];
     
-    [objectManager addResponseDescriptor:characterResponseDescriptor];
+    [_objectManager addResponseDescriptor:characterResponseDescriptor];
 }
 
 - (void)configureWithManagedObjectModel:(NSManagedObjectModel *)managedObjectModel
@@ -77,21 +77,29 @@ andAttributeMappingsFromDictionary:(NSDictionary *)attributeMappings
     NSAssert(managedObjectModel, @"managedObjectModel can't be nil");
     
     // Initialize CoreData store & contexts.
-    managedObjectStore = [[RKManagedObjectStore alloc] initWithManagedObjectModel:managedObjectModel];
+    _managedObjectStore = [[RKManagedObjectStore alloc] initWithManagedObjectModel:managedObjectModel];
     NSError *error;
     if (!RKEnsureDirectoryExistsAtPath(RKApplicationDataDirectory(), &error))
     NSLog(@"Failed to create Application Data Directory at path '%@': %@", RKApplicationDataDirectory(), error);
     
     NSString *path = [RKApplicationDataDirectory() stringByAppendingPathComponent:@"RKMarvel.sqlite"];
-    if (![managedObjectStore addSQLitePersistentStoreAtPath:path
+    if (![_managedObjectStore addSQLitePersistentStoreAtPath:path
                                      fromSeedDatabaseAtPath:nil
                                           withConfiguration:nil options:nil error:&error])
     NSLog(@"Failed adding persistent store at path '%@': %@", path, error);
     
-    [managedObjectStore createManagedObjectContexts];
+    [_managedObjectStore createManagedObjectContexts];
     
     // Link RestKit the generated object store with RestKit's object manager.
-    objectManager.managedObjectStore = managedObjectStore;
+    _objectManager.managedObjectStore = _managedObjectStore;
+}
+
+- (void)saveToStore
+{
+    // Saving to persistent store for persistant usage.
+    NSError *saveError;
+    if (![[self managedObjectContext] saveToPersistentStore:&saveError])
+          NSLog(@"%@", [saveError localizedDescription]);
 }
 
 #pragma mark - Singleton Accessor
@@ -102,6 +110,22 @@ andAttributeMappingsFromDictionary:(NSDictionary *)attributeMappings
     static dispatch_once_t predicate;
     dispatch_once(&predicate, ^{
         manager = [[MarvelObjectManager alloc] init];
+        
+        // Configure CoreData managed object model.
+        NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"MarvelApp" withExtension:@"momd"];
+        [manager configureWithManagedObjectModel:[[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL]];
+        
+        // Add mapping between the "Character" CoreData entity and the "Character" class. Specify the mapping between entity attributes and class properties.
+        [manager addMappingForEntityForName:@"Character"
+         andAttributeMappingsFromDictionary:@{
+                                              @"name" : @"name",
+                                              @"id" : @"charID",
+                                              @"thumbnail" : @"thumbnailDictionary",
+                                              @"description" : @"charDescription"
+                                              }
+                andIdentificationAttributes:@[@"charID"]
+                             andPathPattern:MARVEL_API_CHARACTERS_PATH_PATTERN];
+        
     });
     return manager;
 }
@@ -118,7 +142,7 @@ andAttributeMappingsFromDictionary:(NSDictionary *)attributeMappings
         AFRKHTTPClient *client = [[AFRKHTTPClient alloc] initWithBaseURL:baseURL];
         
         // Initialize RestKit's object manager.
-        objectManager = [[RKObjectManager alloc] initWithHTTPClient:client];
+        _objectManager = [[RKObjectManager alloc] initWithHTTPClient:client];
     }
     
     return self;

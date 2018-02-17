@@ -18,21 +18,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    // Configure CoreData managed object model.
-    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"MarvelApp" withExtension:@"momd"];
-    [[MarvelObjectManager manager] configureWithManagedObjectModel:[[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL]];
-    
-    // Add mapping between the "Character" CoreData entity and the "Character" class. Specify the mapping between entity attributes and class properties.
-    [[MarvelObjectManager manager] addMappingForEntityForName:@"Character"
-                               andAttributeMappingsFromDictionary:@{
-                                                                    @"name" : @"name",
-                                                                    @"id" : @"charID",
-                                                                    @"thumbnail" : @"thumbnailDictionary",
-                                                                    @"description" : @"charDescription"
-                                                                    }
-                                      andIdentificationAttributes:@[@"charID"]
-                                                   andPathPattern:MARVEL_API_CHARACTERS_PATH_PATTERN];
-
+   
 }
 
 

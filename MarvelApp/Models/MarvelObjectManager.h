@@ -26,4 +26,6 @@ andAttributeMappingsFromDictionary:(NSDictionary *)attributeMappings
 - (void)configureWithManagedObjectModel:(NSManagedObjectModel *)managedObjectModel;
 + (MarvelObjectManager *)manager;
 
+- (void)saveToStore;
+
 @end
