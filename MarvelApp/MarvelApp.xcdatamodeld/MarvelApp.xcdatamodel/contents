@@ -8,7 +8,16 @@
         <attribute name="thumbnailImageData" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="thumbnailURLString" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
+    <entity name="Comic" representedClassName="Character" syncable="YES">
+        <attribute name="comicDescription" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="comicID" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="innerID" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="thumbnailImageData" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="thumbnailURLString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
     <elements>
         <element name="Character" positionX="-54" positionY="-9" width="128" height="135"/>
+        <element name="Comic" positionX="-36" positionY="54" width="128" height="135"/>
     </elements>
 </model>

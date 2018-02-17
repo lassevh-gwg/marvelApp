@@ -19,7 +19,11 @@
     // Update the user interface for the detail item.
     if (self.character) {
         [self.characterImageView setImage:[UIImage imageWithData:self.character.thumbnailImageData]];
-        self.characterDescriptionTextView.text = self.character.charDescription;
+        if(self.character.charDescription.length >0)
+            self.characterDescriptionTextView.text = self.character.charDescription;
+        else{
+            self.characterDescriptionTextView.text = NSLocalizedString(@"No description available", nil);
+        }
     }
 }
 

@@ -16,6 +16,7 @@
     NSInteger _numberOfCharacters;
     BOOL _noMoreCharacters;
     BOOL _isLoading;
+    NSMutableSet *_indexpathsLoading;
 }
 
 @end
@@ -30,6 +31,8 @@
     if(_numberOfCharacters == 0){
         [self loadMoreCharacters];
     }
+    
+    _indexpathsLoading = [NSMutableSet new];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
@@ -50,7 +53,7 @@
     // Get an array of remote "character" objects. Specify the offset.
     [[MarvelObjectManager manager] getMarvelObjectsAtPath:MARVEL_API_CHARACTERS_PATH_PATTERN
                                                    parameters:@{@"offset" : @(_numberOfCharacters),
-                                                                @"limit" : @(50),
+                                                                @"limit" : @(40),
                                                                 }
                                                       success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
                                                           // Characters loaded successfully.
@@ -78,11 +81,11 @@
                                                           [[MarvelObjectManager manager] saveToStore];
                                                           
                                                           _numberOfCharacters = newInnerID;
-                                                          [self.tableView performBatchUpdates:^{
-                                                              [self.tableView insertRowsAtIndexPaths:indexPathsToInsert withRowAnimation:UITableViewRowAnimationFade];
-                                                          } completion:^(BOOL finished) {
-                                                              _isLoading = NO;
-                                                          }];
+                                                          [self.tableView beginUpdates];
+                                                          [self.tableView insertRowsAtIndexPaths:indexPathsToInsert withRowAnimation:UITableViewRowAnimationRight];
+                                                          [self.tableView endUpdates];
+                                                          
+                                                          _isLoading = NO;
                                                           
                                                       }
                                                       failure:^(RKObjectRequestOperation *operation, NSError *error) {
@@ -99,7 +102,13 @@
         // Image downloaded successfully.
         character.thumbnailImageData = responseObject;
         [[MarvelObjectManager manager] saveToStore];
-        [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+       
+        if([self.tableView.indexPathsForVisibleRows containsObject:indexPath] ){
+            [self.tableView beginUpdates];
+            [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            [self.tableView endUpdates];
+        }
+
     } failure:^(AFRKHTTPRequestOperation *operation, NSError *error) {
         // Image download failure.
         NSLog(@"image download failed: %@", [error localizedDescription]);
@@ -127,7 +136,7 @@
     nameLabel.text = @"";
     
     //load more characters if it's the last cell
-    if(indexPath.row == _numberOfCharacters-1 && !_isLoading){
+    if(indexPath.row == _numberOfCharacters-1 && !_isLoading && !_noMoreCharacters){
         _isLoading = YES;
         [self loadMoreCharacters];
     }
@@ -137,8 +146,10 @@
 
     if (character.thumbnailImageData)
         [imageView setImage:[UIImage imageWithData:character.thumbnailImageData]];
-    else
+    else if (![_indexpathsLoading containsObject:indexPath]){
+        [_indexpathsLoading addObject:indexPath];
         [self loadThumbnailAtIndexPath:indexPath fromURLString:character.thumbnailURLString forCharacter:character];
+    }
     
     nameLabel.text = character.name;
     
@@ -146,28 +157,8 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 80;
+    return 100;
 }
-
-
-#pragma mark - Table view delegate
-
-// In a xib-based application, navigation from a table can be handled in -tableView:didSelectRowAtIndexPath:
-//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-//
-//    // Create the next view controller.
-//    CharacterDetailViewController *detailViewController = [[CharacterDetailViewController alloc] initWithNibName:@"CharacterDetailViewController" bundle:nil];
-//
-//    // Pass the selected object to the new view controller.
-//    Character *curCharacter = [Character charWithManagedObjectContext:[[MarvelObjectManager manager] managedObjectContext]
-//                                                           andInnerID:indexPath.row];
-//    [detailViewController setCharacter:curCharacter];
-//
-//    // Push the view controller.
-//    [self.navigationController pushViewController:detailViewController animated:YES];
-//}
-
-
 
 #pragma mark - Navigation
 
