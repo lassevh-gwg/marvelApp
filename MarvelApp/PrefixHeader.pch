@@ -1,0 +1,21 @@
+//
+//  PrefixHeader.pch
+//  MarvelApp
+//
+//  Created by Lasse V. Hansen on 17/02/2018.
+//  Copyright © 2018 Lasse. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#define MARVEL_API_BASEPOINT @"http://gateway.marvel.com/"
+#define MARVEL_PUBLIC_KEY @"fbfc8ca3b15b4ce679c18bb9922df56d"
+#define MARVEL_PRIVATE_KEY @"e52f84ec2cf23651712bdf347872a7d0e47ab14a"
+#define MARVEL_API_PATH_PATTERN @"v1/public/"
+#define MARVEL_API_CHARACTERS_PATH_PATTERN @"characters"
+
+#endif /* PrefixHeader_pch */

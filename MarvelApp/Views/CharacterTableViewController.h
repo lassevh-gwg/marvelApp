@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  CharacterTableViewController.h
 //  MarvelApp
 //
 //  Created by Lasse V. Hansen on 17/02/2018.
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
-
+@interface CharacterTableViewController : UITableViewController
 
 @end
-
