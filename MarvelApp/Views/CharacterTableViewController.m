@@ -14,6 +14,8 @@
 @interface CharacterTableViewController ()
 {
     NSInteger _numberOfCharacters;
+    BOOL _noMoreCharacters;
+    BOOL _isLoading;
 }
 
 @end
@@ -23,8 +25,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self loadMoreCharacters];
+    _numberOfCharacters = [Character allCharsCountWithContext:[[MarvelObjectManager manager] managedObjectContext]];
     
+    if(_numberOfCharacters == 0){
+        [self loadMoreCharacters];
+    }
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
@@ -39,21 +44,32 @@
 
 - (void)loadMoreCharacters
 {
-    _numberOfCharacters = [Character allCharsCountWithContext:[[MarvelObjectManager manager] managedObjectContext]];
+    if(_noMoreCharacters)
+        return;
     
     // Get an array of remote "character" objects. Specify the offset.
     [[MarvelObjectManager manager] getMarvelObjectsAtPath:MARVEL_API_CHARACTERS_PATH_PATTERN
-                                                   parameters:@{@"offset" : @(_numberOfCharacters)}
+                                                   parameters:@{@"offset" : @(_numberOfCharacters),
+                                                                @"limit" : @(50),
+                                                                }
                                                       success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
                                                           // Characters loaded successfully.
                                                           
+                                                          if(mappingResult.array.count == 0){
+                                                              //no more characters to load
+                                                              _noMoreCharacters = YES;
+                                                              return;
+                                                          }
+                                                          
                                                           NSInteger newInnerID = _numberOfCharacters;
+                                                          NSMutableArray *indexPathsToInsert = [NSMutableArray new];
                                                           
                                                           for (Character * curCharacter in mappingResult.array)
                                                           {
                                                               if ([curCharacter isKindOfClass:[Character class]])
                                                               {
                                                                   curCharacter.innerID = @(newInnerID);
+                                                                  [indexPathsToInsert addObject:[NSIndexPath indexPathForRow:newInnerID inSection:0]];
                                                                   newInnerID++;
                                                               }
                                                           }
@@ -62,12 +78,33 @@
                                                           [[MarvelObjectManager manager] saveToStore];
                                                           
                                                           _numberOfCharacters = newInnerID;
-                                                          [self.tableView reloadData];
+                                                          [self.tableView performBatchUpdates:^{
+                                                              [self.tableView insertRowsAtIndexPaths:indexPathsToInsert withRowAnimation:UITableViewRowAnimationFade];
+                                                          } completion:^(BOOL finished) {
+                                                              _isLoading = NO;
+                                                          }];
+                                                          
                                                       }
                                                       failure:^(RKObjectRequestOperation *operation, NSError *error) {
                                                           // Failed to load characters.
                                                           NSLog(@"fetching characters failed: %@", operation.error.localizedDescription);
                                                       }];
+}
+
+- (void)loadThumbnailAtIndexPath:(NSIndexPath*)indexPath fromURLString:(NSString *)urlString forCharacter:(Character *)character
+{
+    // Download image for selected character.
+    AFRKHTTPRequestOperation *operation = [[AFRKHTTPRequestOperation alloc] initWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlString]]];
+    [operation setCompletionBlockWithSuccess:^(AFRKHTTPRequestOperation *operation, id responseObject) {
+        // Image downloaded successfully.
+        character.thumbnailImageData = responseObject;
+        [[MarvelObjectManager manager] saveToStore];
+        [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    } failure:^(AFRKHTTPRequestOperation *operation, NSError *error) {
+        // Image download failure.
+        NSLog(@"image download failed: %@", [error localizedDescription]);
+    }];
+    [operation start];
 }
 
 #pragma mark - Table view data source
@@ -82,15 +119,28 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"reuableCharacterCell"];
-    
-    Character *curCharacter = [Character charWithManagedObjectContext:[[MarvelObjectManager manager] managedObjectContext]
-                                                           andInnerID:indexPath.row];
-    
     UIImageView *imageView = [cell viewWithTag:100];
-//    [imageView setImageWithURL:[NSURL URLWithString: curCharacter.thumbnailURLString]];
-
     UILabel *nameLabel = [cell viewWithTag:200];
-    nameLabel.text = curCharacter.name;
+    
+    //clear content
+    imageView.image = nil;
+    nameLabel.text = @"";
+    
+    //load more characters if it's the last cell
+    if(indexPath.row == _numberOfCharacters-1 && !_isLoading){
+        _isLoading = YES;
+        [self loadMoreCharacters];
+    }
+    
+    Character *character = [Character charWithManagedObjectContext:[[MarvelObjectManager manager] managedObjectContext]
+                                                           andInnerID:indexPath.row];
+
+    if (character.thumbnailImageData)
+        [imageView setImage:[UIImage imageWithData:character.thumbnailImageData]];
+    else
+        [self loadThumbnailAtIndexPath:indexPath fromURLString:character.thumbnailURLString forCharacter:character];
+    
+    nameLabel.text = character.name;
     
     return cell;
 }
@@ -103,29 +153,39 @@
 #pragma mark - Table view delegate
 
 // In a xib-based application, navigation from a table can be handled in -tableView:didSelectRowAtIndexPath:
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+//
+//    // Create the next view controller.
+//    CharacterDetailViewController *detailViewController = [[CharacterDetailViewController alloc] initWithNibName:@"CharacterDetailViewController" bundle:nil];
+//
+//    // Pass the selected object to the new view controller.
+//    Character *curCharacter = [Character charWithManagedObjectContext:[[MarvelObjectManager manager] managedObjectContext]
+//                                                           andInnerID:indexPath.row];
+//    [detailViewController setCharacter:curCharacter];
+//
+//    // Push the view controller.
+//    [self.navigationController pushViewController:detailViewController animated:YES];
+//}
 
-    // Create the next view controller.
-    CharacterDetailViewController *detailViewController = [[CharacterDetailViewController alloc] initWithNibName:@"CharacterDetailViewController" bundle:nil];
-    
-    // Pass the selected object to the new view controller.
-    Character *curCharacter = [Character charWithManagedObjectContext:[[MarvelObjectManager manager] managedObjectContext]
-                                                           andInnerID:indexPath.row];
-    [detailViewController setCharacter:curCharacter];
-    
-    // Push the view controller.
-    [self.navigationController pushViewController:detailViewController animated:YES];
-}
 
 
-/*
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    // Create the next view controller.
+    CharacterDetailViewController *detailViewController = [segue destinationViewController];
+    
+    // Pass the selected object to the new view controller.
+    Character *curCharacter = [Character charWithManagedObjectContext:[[MarvelObjectManager manager] managedObjectContext]
+                                                           andInnerID:self.tableView.indexPathForSelectedRow.row];
+    [detailViewController setCharacter:curCharacter];
+    
+//    // Push the view controller.
+//    [self.navigationController pushViewController:detailViewController animated:YES];
 }
-*/
+
 
 @end

@@ -18,7 +18,8 @@
 - (void)configureView {
     // Update the user interface for the detail item.
     if (self.character) {
-//        self.detailDescriptionLabel.text = self.detailItem.timestamp.description;
+        [self.characterImageView setImage:[UIImage imageWithData:self.character.thumbnailImageData]];
+        self.characterDescriptionTextView.text = self.character.charDescription;
     }
 }
 

@@ -12,5 +12,7 @@
 @interface CharacterDetailViewController : UIViewController
 
 @property (strong, nonatomic) Character *character;
+@property (weak, nonatomic) IBOutlet UIImageView *characterImageView;
+@property (weak, nonatomic) IBOutlet UITextView *characterDescriptionTextView;
 
 @end

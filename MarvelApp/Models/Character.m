@@ -65,7 +65,10 @@
 		return;
 
 	_thumbnailDictionary = dict;
-	self.thumbnailURLString = [NSString stringWithFormat:@"%@.%@", _thumbnailDictionary[@"path"], _thumbnailDictionary[@"extension"]];
+    NSString *urlString = [NSString stringWithFormat:@"%@.%@", _thumbnailDictionary[@"path"], _thumbnailDictionary[@"extension"]];
+    //change it to https to comply with ATS
+    urlString = [urlString stringByReplacingOccurrencesOfString:@"http" withString:@"https"];
+    self.thumbnailURLString = urlString;
 }
 
 - (NSDictionary *)thumbnailDictionary
