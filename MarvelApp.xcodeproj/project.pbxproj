@@ -19,6 +19,8 @@
 		0AF738C3203870C3006BF0CA /* Character.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF738C1203870C3006BF0CA /* Character.m */; };
 		0AF738D120388A00006BF0CA /* CharacterDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF738CF20388A00006BF0CA /* CharacterDetailViewController.m */; };
 		0AF738D52038C53A006BF0CA /* Comic.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF738D42038C53A006BF0CA /* Comic.m */; };
+		0AF738DA203976EC006BF0CA /* ComicTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF738D8203976EC006BF0CA /* ComicTableViewController.m */; };
+		0AF738DB203976EC006BF0CA /* ComicDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF738D9203976EC006BF0CA /* ComicDetailViewController.m */; };
 		8DDEF9604AF94D6A648BF7DC /* Pods_MarvelApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1AD06CE504FED496BB5C5AB /* Pods_MarvelApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -46,6 +48,10 @@
 		0AF738CF20388A00006BF0CA /* CharacterDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CharacterDetailViewController.m; sourceTree = "<group>"; };
 		0AF738D32038C53A006BF0CA /* Comic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Comic.h; sourceTree = "<group>"; };
 		0AF738D42038C53A006BF0CA /* Comic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Comic.m; sourceTree = "<group>"; };
+		0AF738D6203976EB006BF0CA /* ComicDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComicDetailViewController.h; sourceTree = "<group>"; };
+		0AF738D7203976EC006BF0CA /* ComicTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComicTableViewController.h; sourceTree = "<group>"; };
+		0AF738D8203976EC006BF0CA /* ComicTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComicTableViewController.m; sourceTree = "<group>"; };
+		0AF738D9203976EC006BF0CA /* ComicDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComicDetailViewController.m; sourceTree = "<group>"; };
 		742E994EB839449A20BDC0EC /* Pods-MarvelApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MarvelApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MarvelApp/Pods-MarvelApp.debug.xcconfig"; sourceTree = "<group>"; };
 		C1AD06CE504FED496BB5C5AB /* Pods_MarvelApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MarvelApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -100,8 +106,6 @@
 				0A2CF5FB2038526100806FAC /* Views */,
 				0A2CF5DC20384A0200806FAC /* AppDelegate.h */,
 				0A2CF5DD20384A0200806FAC /* AppDelegate.m */,
-				0A2CF5DF20384A0200806FAC /* StartViewController.h */,
-				0A2CF5E020384A0200806FAC /* StartViewController.m */,
 				0A2CF5E220384A0200806FAC /* Main.storyboard */,
 				0A2CF5E820384A0200806FAC /* Assets.xcassets */,
 				0A2CF5EA20384A0200806FAC /* LaunchScreen.storyboard */,
@@ -120,6 +124,12 @@
 				0A2CF5F7203850D500806FAC /* CharacterTableViewController.m */,
 				0AF738CE20388A00006BF0CA /* CharacterDetailViewController.h */,
 				0AF738CF20388A00006BF0CA /* CharacterDetailViewController.m */,
+				0AF738D6203976EB006BF0CA /* ComicDetailViewController.h */,
+				0AF738D9203976EC006BF0CA /* ComicDetailViewController.m */,
+				0AF738D7203976EC006BF0CA /* ComicTableViewController.h */,
+				0AF738D8203976EC006BF0CA /* ComicTableViewController.m */,
+				0A2CF5DF20384A0200806FAC /* StartViewController.h */,
+				0A2CF5E020384A0200806FAC /* StartViewController.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -277,9 +287,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0AF738DB203976EC006BF0CA /* ComicDetailViewController.m in Sources */,
 				0A2CF5E720384A0200806FAC /* MarvelApp.xcdatamodeld in Sources */,
 				0AF738D120388A00006BF0CA /* CharacterDetailViewController.m in Sources */,
 				0AF738C3203870C3006BF0CA /* Character.m in Sources */,
+				0AF738DA203976EC006BF0CA /* ComicTableViewController.m in Sources */,
 				0A0DC2AA2038606200A79CF6 /* MarvelObjectManager.m in Sources */,
 				0A2CF5E120384A0200806FAC /* StartViewController.m in Sources */,
 				0A2CF5EF20384A0200806FAC /* main.m in Sources */,

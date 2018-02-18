@@ -1,35 +1,35 @@
 //
-//  CharacterTableViewController.m
+//  ComicTableViewController.m
 //  MarvelApp
 //
 //  Created by Lasse V. Hansen on 17/02/2018.
 //  Copyright © 2018 Lasse. All rights reserved.
 //
 
-#import "CharacterTableViewController.h"
-#import "Character.h"
+#import "ComicTableViewController.h"
+#import "Comic.h"
 #import "MarvelObjectManager.h"
-#import "CharacterDetailViewController.h"
+#import "ComicDetailViewController.h"
 
-@interface CharacterTableViewController ()
+@interface ComicTableViewController ()
 {
-    NSInteger _numberOfCharacters;
-    BOOL _noMoreCharacters;
+    NSInteger _numberOfComics;
+    BOOL _noMoreComics;
     BOOL _isLoading;
     NSMutableSet *_indexpathsLoading;
 }
 
 @end
 
-@implementation CharacterTableViewController
+@implementation ComicTableViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    _numberOfCharacters = [Character allCharsCountWithContext:[[MarvelObjectManager manager] managedObjectContext]];
+    _numberOfComics = [Comic allComicsCountWithContext:[[MarvelObjectManager manager] managedObjectContext]];
     
-    if(_numberOfCharacters == 0){
-        [self loadMoreCharacters];
+    if(_numberOfComics == 0){
+        [self loadMoreComics];
     }
     
     _indexpathsLoading = [NSMutableSet new];
@@ -45,35 +45,35 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)loadMoreCharacters
+- (void)loadMoreComics
 {
-    if(_noMoreCharacters)
+    if(_noMoreComics)
         return;
     
     _isLoading = YES;
     
-    // Get an array of remote "character" objects. Specify the offset.
-    [[MarvelObjectManager manager] getMarvelObjectsAtPath:MARVEL_API_CHARACTERS_PATH_PATTERN
-                                                   parameters:@{@"offset" : @(_numberOfCharacters),
-                                                                @"limit" : @(40),
+    // Get an array of remote "comic" objects. Specify the offset.
+    [[MarvelObjectManager manager] getMarvelObjectsAtPath:MARVEL_API_COMICS_PATH_PATTERN
+                                                   parameters:@{@"offset" : @(_numberOfComics),
+                                                                @"limit" : @(20),
                                                                 }
                                                       success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-                                                          // Characters loaded successfully.
+                                                          // Comics loaded successfully.
                                                           
                                                           if(mappingResult.array.count == 0){
-                                                              //no more characters to load
-                                                              _noMoreCharacters = YES;
+                                                              //no more comics to load
+                                                              _noMoreComics = YES;
                                                               return;
                                                           }
                                                           
-                                                          NSInteger newInnerID = _numberOfCharacters;
+                                                          NSInteger newInnerID = _numberOfComics;
                                                           NSMutableArray *indexPathsToInsert = [NSMutableArray new];
                                                           
-                                                          for (Character * curCharacter in mappingResult.array)
+                                                          for (Comic * curComic in mappingResult.array)
                                                           {
-                                                              if ([curCharacter isKindOfClass:[Character class]])
+                                                              if ([curComic isKindOfClass:[Comic class]])
                                                               {
-                                                                  curCharacter.innerID = @(newInnerID);
+                                                                  curComic.innerID = @(newInnerID);
                                                                   [indexPathsToInsert addObject:[NSIndexPath indexPathForRow:newInnerID inSection:0]];
                                                                   newInnerID++;
                                                               }
@@ -82,7 +82,7 @@
                                                           //persist
                                                           [[MarvelObjectManager manager] saveToStore];
                                                           
-                                                          _numberOfCharacters = newInnerID;
+                                                          _numberOfComics = newInnerID;
                                                           [self.tableView beginUpdates];
                                                           [self.tableView insertRowsAtIndexPaths:indexPathsToInsert withRowAnimation:UITableViewRowAnimationRight];
                                                           [self.tableView endUpdates];
@@ -91,18 +91,18 @@
                                                           
                                                       }
                                                       failure:^(RKObjectRequestOperation *operation, NSError *error) {
-                                                          // Failed to load characters.
-                                                          NSLog(@"fetching characters failed: %@", operation.error.localizedDescription);
+                                                          // Failed to load comics.
+                                                          NSLog(@"fetching comics failed: %@", operation.error.localizedDescription);
                                                       }];
 }
 
-- (void)loadThumbnailAtIndexPath:(NSIndexPath*)indexPath fromURLString:(NSString *)urlString forCharacter:(Character *)character
+- (void)loadThumbnailAtIndexPath:(NSIndexPath*)indexPath fromURLString:(NSString *)urlString forComic:(Comic *)comic
 {
-    // Download image for selected character.
+    // Download image for selected comic.
     AFRKHTTPRequestOperation *operation = [[AFRKHTTPRequestOperation alloc] initWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlString]]];
     [operation setCompletionBlockWithSuccess:^(AFRKHTTPRequestOperation *operation, id responseObject) {
         // Image downloaded successfully.
-        character.thumbnailImageData = responseObject;
+        comic.thumbnailImageData = responseObject;
         [[MarvelObjectManager manager] saveToStore];
        
         if([self.tableView.indexPathsForVisibleRows containsObject:indexPath] ){
@@ -125,11 +125,11 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return _numberOfCharacters;
+    return _numberOfComics;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"reuseableCharacterCell"];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"reuseableComicCell"];
     UIImageView *imageView = [cell viewWithTag:100];
     UILabel *nameLabel = [cell viewWithTag:200];
     
@@ -137,28 +137,28 @@
     imageView.image = nil;
     nameLabel.text = @"";
     
-    //load more characters if it's the last cell
-    if(indexPath.row == _numberOfCharacters-1 && !_isLoading && !_noMoreCharacters){
-        [self loadMoreCharacters];
+    //load more comics if it's the last cell
+    if(indexPath.row == _numberOfComics-1 && !_isLoading && !_noMoreComics){
+        [self loadMoreComics];
     }
     
-    Character *character = [Character charWithManagedObjectContext:[[MarvelObjectManager manager] managedObjectContext]
+    Comic *comic = [Comic comicWithManagedObjectContext:[[MarvelObjectManager manager] managedObjectContext]
                                                            andInnerID:indexPath.row];
 
-    if (character.thumbnailImageData)
-        [imageView setImage:[UIImage imageWithData:character.thumbnailImageData]];
+    if (comic.thumbnailImageData)
+        [imageView setImage:[UIImage imageWithData:comic.thumbnailImageData]];
     else if (![_indexpathsLoading containsObject:indexPath]){
         [_indexpathsLoading addObject:indexPath];
-        [self loadThumbnailAtIndexPath:indexPath fromURLString:character.thumbnailURLString forCharacter:character];
+        [self loadThumbnailAtIndexPath:indexPath fromURLString:comic.thumbnailURLString forComic:comic];
     }
     
-    nameLabel.text = character.name;
+    nameLabel.text = comic.title;
     
     return cell;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 100;
+    return 150;
 }
 
 #pragma mark - Navigation
@@ -168,12 +168,12 @@
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
     // Create the next view controller.
-    CharacterDetailViewController *detailViewController = [segue destinationViewController];
+    ComicDetailViewController *detailViewController = [segue destinationViewController];
     
     // Pass the selected object to the new view controller.
-    Character *curCharacter = [Character charWithManagedObjectContext:[[MarvelObjectManager manager] managedObjectContext]
+    Comic *curComic = [Comic comicWithManagedObjectContext:[[MarvelObjectManager manager] managedObjectContext]
                                                            andInnerID:self.tableView.indexPathForSelectedRow.row];
-    [detailViewController setCharacter:curCharacter];
+    [detailViewController setComic:curComic];
     
 }
 

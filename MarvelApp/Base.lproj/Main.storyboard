@@ -42,17 +42,27 @@
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Szc-rv-jop">
                                 <rect key="frame" x="-0.5" y="262" width="375" height="30"/>
-                                <state key="normal" title="Show Character List"/>
+                                <state key="normal" title="Show Characters List"/>
                                 <connections>
                                     <segue destination="m1R-Za-dRF" kind="show" id="fme-di-ZUs"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PAK-b4-0J5">
+                                <rect key="frame" x="0.0" y="366" width="375" height="30"/>
+                                <state key="normal" title="Show Comics List"/>
+                                <connections>
+                                    <segue destination="nR6-0o-RnJ" kind="show" id="C6g-ZJ-VJl"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="Szc-rv-jop" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="3rW-8J-MPZ"/>
+                            <constraint firstItem="PAK-b4-0J5" firstAttribute="width" secondItem="Szc-rv-jop" secondAttribute="width" id="4D8-xl-RMT"/>
                             <constraint firstItem="Szc-rv-jop" firstAttribute="top" secondItem="bb7-qc-6St" secondAttribute="bottom" constant="54" id="6Zz-1n-fWQ"/>
+                            <constraint firstItem="PAK-b4-0J5" firstAttribute="top" secondItem="Szc-rv-jop" secondAttribute="bottom" constant="74" id="8XV-OR-Ohj"/>
                             <constraint firstItem="Szc-rv-jop" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="GMW-ov-dp1"/>
+                            <constraint firstItem="PAK-b4-0J5" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="WSz-5k-bhP"/>
                             <constraint firstItem="bb7-qc-6St" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="c8c-XA-a0J"/>
                             <constraint firstItem="bb7-qc-6St" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="crd-Fz-psx"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="bb7-qc-6St" secondAttribute="trailing" constant="16" id="uF1-WF-cDd"/>
@@ -74,7 +84,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="reuableCharacterCell" rowHeight="100" id="Ypc-Ls-lbS">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="reuseableCharacterCell" rowHeight="100" id="Ypc-Ls-lbS">
                                 <rect key="frame" x="0.0" y="28" width="375" height="100"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Ypc-Ls-lbS" id="ScR-rD-Chd">
@@ -161,6 +171,103 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QFk-yX-mox" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1752.8" y="-106.59670164917542"/>
+        </scene>
+        <!--Comic Table View Controller-->
+        <scene sceneID="Bcy-UX-b6e">
+            <objects>
+                <tableViewController id="nR6-0o-RnJ" customClass="ComicTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="150" estimatedRowHeight="150" sectionHeaderHeight="28" sectionFooterHeight="28" id="5Nv-1v-jJI">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="reuseableComicCell" rowHeight="150" id="ezQ-xL-Tf5">
+                                <rect key="frame" x="0.0" y="28" width="375" height="150"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ezQ-xL-Tf5" id="PwW-7Y-9vC">
+                                    <rect key="frame" x="0.0" y="0.0" width="341" height="149.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" tag="100" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="FeV-qN-kam">
+                                            <rect key="frame" x="0.0" y="0.0" width="100" height="150"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="100" id="KSN-Lf-klC"/>
+                                                <constraint firstAttribute="height" constant="150" id="bDA-Fi-1xL"/>
+                                            </constraints>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="200" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pgJ-vZ-I3B">
+                                            <rect key="frame" x="108.5" y="0.0" width="232.5" height="150"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="pgJ-vZ-I3B" firstAttribute="centerY" secondItem="FeV-qN-kam" secondAttribute="centerY" id="AzB-cT-hX6"/>
+                                        <constraint firstItem="pgJ-vZ-I3B" firstAttribute="height" secondItem="FeV-qN-kam" secondAttribute="height" id="Kx8-VI-P91"/>
+                                        <constraint firstAttribute="trailing" secondItem="pgJ-vZ-I3B" secondAttribute="trailing" id="N9K-ak-AG1"/>
+                                        <constraint firstItem="FeV-qN-kam" firstAttribute="leading" secondItem="PwW-7Y-9vC" secondAttribute="leading" id="PMj-kb-B8W"/>
+                                        <constraint firstItem="FeV-qN-kam" firstAttribute="top" secondItem="PwW-7Y-9vC" secondAttribute="top" id="Pgm-Kh-cgS"/>
+                                        <constraint firstItem="pgJ-vZ-I3B" firstAttribute="leading" secondItem="FeV-qN-kam" secondAttribute="trailing" constant="8.5" id="e3I-q6-Oam"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="ErR-sE-wE1" kind="show" id="22L-gJ-Fd6"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="nR6-0o-RnJ" id="VqA-CM-KnL"/>
+                            <outlet property="delegate" destination="nR6-0o-RnJ" id="F4F-3y-ySu"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="EMa-ef-DJ3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="886" y="761"/>
+        </scene>
+        <!--Comic Detail View Controller-->
+        <scene sceneID="7K5-Vh-gI7">
+            <objects>
+                <viewController id="ErR-sE-wE1" customClass="ComicDetailViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="1D5-9o-nSO">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="imw-c1-SRS">
+                                <rect key="frame" x="0.0" y="75" width="375" height="300"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="300" id="BFD-3r-4II"/>
+                                </constraints>
+                            </imageView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lSV-GM-1ag">
+                                <rect key="frame" x="16" y="383" width="343" height="264"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="imw-c1-SRS" firstAttribute="width" secondItem="1D5-9o-nSO" secondAttribute="width" id="34p-7T-0fs"/>
+                            <constraint firstItem="lSV-GM-1ag" firstAttribute="leading" secondItem="2Fi-ck-7b6" secondAttribute="leading" constant="16" id="8nC-EI-EWw"/>
+                            <constraint firstItem="2Fi-ck-7b6" firstAttribute="bottom" secondItem="lSV-GM-1ag" secondAttribute="bottom" constant="20" id="D5y-Fo-Nhh"/>
+                            <constraint firstItem="imw-c1-SRS" firstAttribute="top" secondItem="2Fi-ck-7b6" secondAttribute="top" constant="11" id="Fve-wZ-24Y"/>
+                            <constraint firstItem="lSV-GM-1ag" firstAttribute="top" secondItem="imw-c1-SRS" secondAttribute="bottom" constant="8" id="PQu-xO-eUG"/>
+                            <constraint firstItem="imw-c1-SRS" firstAttribute="leading" secondItem="2Fi-ck-7b6" secondAttribute="leading" id="QsK-b8-xq0"/>
+                            <constraint firstItem="2Fi-ck-7b6" firstAttribute="trailing" secondItem="lSV-GM-1ag" secondAttribute="trailing" constant="16" id="XaE-LG-Ymc"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="2Fi-ck-7b6"/>
+                    </view>
+                    <connections>
+                        <outlet property="comicDescriptionTextView" destination="lSV-GM-1ag" id="MYl-Uo-RhM"/>
+                        <outlet property="comicImageView" destination="imw-c1-SRS" id="7LY-Yd-iJJ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Eqy-U2-WYx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1753" y="761"/>
         </scene>
     </scenes>
     <resources>

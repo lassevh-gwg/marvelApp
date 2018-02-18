@@ -1,5 +1,5 @@
 //
-//  AppDelegate.h
+//  ComicTableViewController.h
 //  MarvelApp
 //
 //  Created by Lasse V. Hansen on 17/02/2018.
@@ -8,9 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
-
-@property (strong, nonatomic) UIWindow *window;
+@interface ComicTableViewController : UITableViewController
 
 @end
-

@@ -62,14 +62,14 @@ andAttributeMappingsFromDictionary:(NSDictionary *)attributeMappings
     
     
     // Register mappings with the provider using a response descriptor.
-    RKResponseDescriptor *characterResponseDescriptor =
+    RKResponseDescriptor *responseDescriptor =
     [RKResponseDescriptor responseDescriptorWithMapping:objectMapping
                                                  method:RKRequestMethodGET
                                             pathPattern:[NSString stringWithFormat:@"%@%@", MARVEL_API_PATH_PATTERN, pathPattern]
                                                 keyPath:@"data.results"
                                             statusCodes:[NSIndexSet indexSetWithIndex:200]];
     
-    [_objectManager addResponseDescriptor:characterResponseDescriptor];
+    [_objectManager addResponseDescriptor:responseDescriptor];
 }
 
 - (void)configureWithManagedObjectModel:(NSManagedObjectModel *)managedObjectModel
@@ -115,7 +115,7 @@ andAttributeMappingsFromDictionary:(NSDictionary *)attributeMappings
         NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"MarvelApp" withExtension:@"momd"];
         [manager configureWithManagedObjectModel:[[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL]];
         
-        // Add mapping between the "Character" CoreData entity and the "Character" class. Specify the mapping between entity attributes and class properties.
+        // Add mapping between the "Character" CoreData entity and the "Character" class.
         [manager addMappingForEntityForName:@"Character"
          andAttributeMappingsFromDictionary:@{
                                               @"name" : @"name",
@@ -125,6 +125,17 @@ andAttributeMappingsFromDictionary:(NSDictionary *)attributeMappings
                                               }
                 andIdentificationAttributes:@[@"charID"]
                              andPathPattern:MARVEL_API_CHARACTERS_PATH_PATTERN];
+        
+        // Add mapping between the "Comic" CoreData entity and the "Comic" class.
+        [manager addMappingForEntityForName:@"Comic"
+         andAttributeMappingsFromDictionary:@{
+                                              @"title" : @"title",
+                                              @"id" : @"comicID",
+                                              @"thumbnail" : @"thumbnailDictionary",
+                                              @"description" : @"comicDescription"
+                                              }
+                andIdentificationAttributes:@[@"comicID"]
+                             andPathPattern:MARVEL_API_COMICS_PATH_PATTERN];
         
     });
     return manager;

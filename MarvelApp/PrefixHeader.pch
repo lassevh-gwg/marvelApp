@@ -17,5 +17,6 @@
 #define MARVEL_PRIVATE_KEY @"e52f84ec2cf23651712bdf347872a7d0e47ab14a"
 #define MARVEL_API_PATH_PATTERN @"v1/public/"
 #define MARVEL_API_CHARACTERS_PATH_PATTERN @"characters"
+#define MARVEL_API_COMICS_PATH_PATTERN @"comics"
 
 #endif /* PrefixHeader_pch */
