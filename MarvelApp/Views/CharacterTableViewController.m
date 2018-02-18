@@ -33,11 +33,6 @@
     }
     
     _indexpathsLoading = [NSMutableSet new];
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -84,7 +79,7 @@
                                                           
                                                           _numberOfCharacters = newInnerID;
                                                           [self.tableView beginUpdates];
-                                                          [self.tableView insertRowsAtIndexPaths:indexPathsToInsert withRowAnimation:UITableViewRowAnimationRight];
+                                                          [self.tableView insertRowsAtIndexPaths:indexPathsToInsert withRowAnimation:UITableViewRowAnimationFade];
                                                           [self.tableView endUpdates];
                                                           
                                                           _isLoading = NO;
