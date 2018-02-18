@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -138,13 +139,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="JXy-up-TP1">
-                                <rect key="frame" x="0.0" y="75" width="375" height="300"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="300" id="JaU-1Q-8ei"/>
-                                </constraints>
+                                <rect key="frame" x="0.0" y="75" width="375" height="333.5"/>
                             </imageView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SRj-H7-WBl">
-                                <rect key="frame" x="16" y="383" width="343" height="264"/>
+                                <rect key="frame" x="16" y="416.5" width="343" height="230.5"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="14"/>
@@ -158,6 +156,7 @@
                             <constraint firstItem="SRj-H7-WBl" firstAttribute="leading" secondItem="GrS-8B-HnA" secondAttribute="leading" constant="16" id="Kh5-HL-cFL"/>
                             <constraint firstItem="JXy-up-TP1" firstAttribute="leading" secondItem="GrS-8B-HnA" secondAttribute="leading" id="NZ0-Xy-K2y"/>
                             <constraint firstItem="JXy-up-TP1" firstAttribute="top" secondItem="GrS-8B-HnA" secondAttribute="top" constant="11" id="U8b-fV-rUe"/>
+                            <constraint firstItem="JXy-up-TP1" firstAttribute="height" secondItem="Kil-Do-LV0" secondAttribute="height" multiplier="0.5" id="hFL-9L-F4J"/>
                             <constraint firstItem="JXy-up-TP1" firstAttribute="width" secondItem="Kil-Do-LV0" secondAttribute="width" id="oxW-af-LGW"/>
                             <constraint firstItem="GrS-8B-HnA" firstAttribute="bottom" secondItem="SRj-H7-WBl" secondAttribute="bottom" constant="20" id="wLD-bi-taD"/>
                         </constraints>
@@ -235,13 +234,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="imw-c1-SRS">
-                                <rect key="frame" x="0.0" y="75" width="375" height="300"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="300" id="BFD-3r-4II"/>
-                                </constraints>
+                                <rect key="frame" x="0.0" y="75" width="375" height="333.5"/>
                             </imageView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lSV-GM-1ag">
-                                <rect key="frame" x="16" y="383" width="343" height="264"/>
+                                <rect key="frame" x="16" y="416.5" width="343" height="230.5"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="14"/>
@@ -257,6 +253,7 @@
                             <constraint firstItem="lSV-GM-1ag" firstAttribute="top" secondItem="imw-c1-SRS" secondAttribute="bottom" constant="8" id="PQu-xO-eUG"/>
                             <constraint firstItem="imw-c1-SRS" firstAttribute="leading" secondItem="2Fi-ck-7b6" secondAttribute="leading" id="QsK-b8-xq0"/>
                             <constraint firstItem="2Fi-ck-7b6" firstAttribute="trailing" secondItem="lSV-GM-1ag" secondAttribute="trailing" constant="16" id="XaE-LG-Ymc"/>
+                            <constraint firstItem="imw-c1-SRS" firstAttribute="height" secondItem="1D5-9o-nSO" secondAttribute="height" multiplier="0.5" id="bxA-Jp-rFd"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="2Fi-ck-7b6"/>
                     </view>

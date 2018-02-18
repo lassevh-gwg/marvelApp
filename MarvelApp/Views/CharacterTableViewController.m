@@ -50,7 +50,7 @@
     // Get an array of remote "character" objects. Specify the offset.
     [[MarvelObjectManager manager] getMarvelObjectsAtPath:MARVEL_API_CHARACTERS_PATH_PATTERN
                                                    parameters:@{@"offset" : @(_numberOfCharacters),
-                                                                @"limit" : @(40),
+                                                                @"limit" : @(20),
                                                                 }
                                                       success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
                                                           // Characters loaded successfully.
